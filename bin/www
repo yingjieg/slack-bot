@@ -7,6 +7,7 @@
 const app = require('../app');
 const debug = require('debug')('slack-bot:server');
 const http = require('http');
+const WebSocket = require('ws');
 
 /**
  * Get port from environment and store in Express.
@@ -58,9 +59,7 @@ function onError(error) {
     throw error;
   }
 
-  const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -83,8 +82,31 @@ function onError(error) {
 
 function onListening() {
   const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+/**
+ * Initialize the WebSocket server instance as global
+ */
+
+wss = new WebSocket.Server({ server });
+
+wss.on('connection', conn => {
+  /*
+  conn.on('message', message => {
+    console.log('received: %s', message);
+    conn.send(`Hello, you sent -> ${message}`);
+  });
+  */
+
+  conn.on('close', () => {
+    console.log(`${conn.clientId} is closed`);
+  });
+
+  conn.send('hello');
+});
+
+wss.on('request', req => {
+  console.log(req);
+});

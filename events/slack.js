@@ -3,7 +3,8 @@ const { notifyUser } = require('../services/slack');
 /**
  * handler for 'slack-notify' event
  *
- * @param payload
+ * @param cmd - string
+ * @param payload - obj
  * {
  *   targetUser: string,
  *   author: string,
@@ -32,9 +33,12 @@ function getMentionedUserName(message) {
 }
 
 function newMessageHandler(payload) {
+  wss.clients.forEach(client => {
+    client.send(JSON.stringify(payload));
+  });
 }
 
 module.exports = {
   notifyHandler,
-  newMessageHandler
+  newMessageHandler,
 };

@@ -43,8 +43,9 @@ app.use(function(err, req, res, next) {
 
 // customer event handlers
 const eventEmitter = require('./events');
-const { notifyHandler } = require('./events/slack');
+const { notifyHandler, newMessageHandler } = require('./events/slack');
 
 eventEmitter.on('slack-notify', notifyHandler);
+eventEmitter.on('slack-new-message', newMessageHandler);
 
 module.exports = app;
