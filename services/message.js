@@ -2,17 +2,20 @@ const { Messages, Sequelize } = require('../db/models');
 
 function getMessages(cursor = -1, previous = false, limit = 10) {
   const where = {};
+  let order = [['id', 'DESC']];
   if (cursor !== -1) {
     where['id'] = previous
       ? { [Sequelize.Op.lt]: cursor }
       : { [Sequelize.Op.gt]: cursor };
+
+    order = previous ? [['id', 'DESC']] : [['id', 'ASC']];
   }
 
   return new Promise((resolve, reject) => {
     Messages.findAll({
-      order: [['createdAt', 'DESC']],
-      limit,
       where,
+      order,
+      limit,
     })
       .then(res => {
         resolve(res);

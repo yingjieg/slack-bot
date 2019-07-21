@@ -8,7 +8,7 @@ router.get('/', async (req, res, next) => {
   // verify query params
 
   try {
-    const messages = await getMessages(cursor, previous, limit);
+    const messages = await getMessages(+cursor, previous, limit);
     res.json(messages);
   } catch (e) {
     next(e);
