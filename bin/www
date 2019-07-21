@@ -104,7 +104,7 @@ wss.on('connection', conn => {
     console.log(`${conn.clientId} is closed`);
   });
 
-  conn.send('hello');
+  console.log(`${conn.clientId} is connected`);
 });
 
 wss.on('request', req => {
