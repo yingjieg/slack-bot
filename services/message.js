@@ -22,13 +22,13 @@ function getMessages(cursor = -1, previous = false, limit = 10) {
 }
 
 function addMessage(message) {
-  const { userId, userName, text } = message;
+  const { user_id, user_name, text } = message;
   // TODO verify
 
   return new Promise((resolve, reject) => {
-    Messages.create({ userId, userName, text })
+    Messages.create({ userId: user_id, userName: user_name, text })
       .then(res => {
-        resolve(res);
+        resolve(res.dataValues);
       })
       .catch(reject);
   });

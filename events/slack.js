@@ -10,12 +10,12 @@ const { notifyUser } = require('../services/slack');
  *   text: string
  * }
  */
-function notifyHandler(payload) {
-  const { user_id, user_name, command, text } = payload;
+function notifyHandler(cmd, payload) {
+  const { userId, userName, text } = payload;
 
-  switch (command) {
+  switch (cmd) {
     case '/save':
-      const message = `You are mentioned by @${user_name}`;
+      const message = `You are mentioned by @${userName}`;
       const targetUser = getMentionedUserName(text);
 
       notifyUser(targetUser, message).catch(err => console.error(err));
@@ -31,6 +31,10 @@ function getMentionedUserName(message) {
   return groups ? groups[0] : null;
 }
 
+function newMessageHandler(payload) {
+}
+
 module.exports = {
   notifyHandler,
+  newMessageHandler
 };

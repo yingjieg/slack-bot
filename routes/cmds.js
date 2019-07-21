@@ -9,11 +9,9 @@ router.post('/', async (req, res, next) => {
   try {
     const msg = await addMessage(req.body);
 
-    eventEmitter.emit('slack-notify', req.body);
+    eventEmitter.emit('slack-notify', req.body.command, msg);
 
     res.sendStatus(200);
-
-    console.log(msg);
   } catch (e) {
     next(e);
   }
