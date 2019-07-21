@@ -1,6 +1,0 @@
-{
-  "development": {
-    "dialect": "sqlite",
-    "storage": "/Users/knight/appen/slack-bot/db.sqlite"
-  }
-}
