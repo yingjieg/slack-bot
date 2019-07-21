@@ -2,6 +2,7 @@ const axios = require('axios');
 
 const instance = axios.create({
   responseType: 'json',
+  timeout: 5000,
 });
 
 
