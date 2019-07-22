@@ -1,3 +1,4 @@
+const logger = require('../utils/logger');
 const { notifyUser } = require('../services/slack');
 
 /**
@@ -6,8 +7,8 @@ const { notifyUser } = require('../services/slack');
  * @param cmd - string
  * @param payload - obj
  * {
- *   targetUser: string,
- *   author: string,
+ *   userId: string,
+ *   userName: string,
  *   text: string
  * }
  */
@@ -22,7 +23,7 @@ function notifyHandler(cmd, payload) {
       notifyUser(targetUser, message).catch(err => console.error(err));
       break;
     default:
-      console.warn('no matched commands found!');
+      logger.warn(`handler not found for command ${cmd}`);
   }
 }
 

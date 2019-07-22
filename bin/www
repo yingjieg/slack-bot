@@ -5,9 +5,11 @@
  */
 
 const app = require('../app');
+const logger = require('../utils/logger');
 const debug = require('debug')('slack-bot:server');
 const http = require('http');
 const WebSocket = require('ws');
+
 
 /**
  * Get port from environment and store in Express.
@@ -92,21 +94,22 @@ function onListening() {
 
 wss = new WebSocket.Server({ server });
 
-wss.on('connection', conn => {
-  /*
-  conn.on('message', message => {
-    console.log('received: %s', message);
-    conn.send(`Hello, you sent -> ${message}`);
+wss.on('connection', (ws, req) => {
+  const id = req.headers['sec-websocket-key'];
+  logger.info(`${id} is connected`);
+
+  const { origin } = req.headers;
+
+  logger.debug(`client\'s origin is ${origin}`);
+
+  if (process.env.ORIGIN) {
+    if (origin !== process.env.ORIGIN) {
+      ws.terminate();
+      return;
+    }
+  }
+
+  ws.on('close', () => {
+    logger.info(`${id} is closed`);
   });
-  */
-
-  conn.on('close', () => {
-    console.log(`${conn.clientId} is closed`);
-  });
-
-  console.log(`${conn.clientId} is connected`);
-});
-
-wss.on('request', req => {
-  console.log(req);
 });
