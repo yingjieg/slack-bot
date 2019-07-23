@@ -14,9 +14,12 @@ npm install
 #### 2. add .env file in project root
 
 ```ini
-SLACK_ACCESS_TOKEN='xxxxxx'
-SLACK_VERIFICATION_TOKEN='xxxxxxxx'
-DB_FILE_PATH='/home/xxx/xxx/db.sqlite'
+SLACK_ACCESS_TOKEN='xxxxxx'                 // OAuth token for slack API access
+SLACK_VERIFICATION_TOKEN='xxxxxxxx'         // slack verification token (to authorize slack app)
+DB_FILE_PATH='/home/xxx/xxx/db.sqlite'      // path for sqlite path, please use absolute file path
+ORIGIN='http://hostname:3001'               // for ws origin check
+
+DEBUG=true                                  // for debug log
 ```
 
 
